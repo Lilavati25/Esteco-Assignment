@@ -1,50 +1,65 @@
 package com.esteco.assignment;
 
-import java.security.PublicKey;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
 
-/**
- * The AddCalculator class provides functionality to perform addition operations on numbers.
- * It supports variable arguments and returns the sum as a string.
- *
- * @Author: Lilavati Shivaji Mhaske
- */
 public class AddCalculator {
-    public static String add(String... numberStrings){
-        String result;
-        String delimiter;
-        String numbers;
-        String[] numbersArray;
+    private static final String DEFAULT_DELIMITER = ",";
+    private static final String BLANK_SPACE = "";
 
-       for(String numberString: numberStrings){
-            if(numberString.startsWith("//")){
-                // System.out.println("delimiter: "+number.substring(2, number.indexOf("\n")));
-                numbers = numberString.substring(numberString.indexOf("\n"));
-                delimiter = numberString.substring(2, numberString.indexOf("\n"));
+    public static String add(String... numbersStrList){
+        StringBuffer result = new StringBuffer(BLANK_SPACE);
 
-                numbersArray = numbers.split(delimiter);
-                for (int i=0; i<numbersArray.length;i++){
-                    if(numbersArray[i] == "")
-                        System.out.print("BLANK2");
-                    System.out.print(numbersArray[i]+" ");
-                }
-            }else{
-
+        for(String numberStr: numbersStrList){
+            if(numberStr.trim().isEmpty()){
+                result.append("0\n");
+                continue;
             }
-       }
-       return "";
-    }
 
-    public static String addNums(String[] nums){
-        int sum = 0;
+            String delimiter = DEFAULT_DELIMITER;
+            String actualNumStr = numberStr;
 
-        // Please handle negative number and missing number issue
-        for(int i=0; i<nums.length; i++){
-            sum += Integer.parseInt(nums[i]);
+            if (numberStr.startsWith("//")){
+                actualNumStr = numberStr.substring(numberStr.indexOf("\n")+1);
+                delimiter = numberStr.substring(2, numberStr.indexOf("\n"));
+            }
+
+             if(actualNumStr.endsWith(delimiter)){
+                 result.append("Number expected but EOF found\n");
+                 continue;
+             }
+
+            String regex = Pattern.quote(delimiter) + "|\\n|, ";
+            String[] numbers = actualNumStr.split(regex);
+
+            int sum = 0;
+            boolean negativeNumPresent = false;
+
+             for(int i=0; i< numbers.length; i++){
+                 if(!numbers[i].trim().isEmpty()){
+                     try{
+                         int n = Integer.parseInt(numbers[i].trim());
+                         if(n<0){
+                             result.append("Negative numbers not allowed : ").append(n).append("\n");
+                             negativeNumPresent = true;
+                             continue;
+                         }
+                         sum += n;
+                     }catch (Exception e){
+                         System.out.println(e.getMessage());
+                     }
+                 }else{
+                     result.append("Number expected but '").append(delimiter).append("' found at position ").append(i).append("\n");
+                 }
+             }
+             if(!negativeNumPresent){
+                 result.append(sum).append("\n");
+             }
         }
-        return ""+sum;
-    }
 
-    public static void main(String[] args) {
-        add("//;\n1;2;;3;4;");
+        if(result.toString().endsWith("\n"))
+            result = new StringBuffer(result.substring(0, result.lastIndexOf("\n")));
+        return result.toString();
     }
 }
