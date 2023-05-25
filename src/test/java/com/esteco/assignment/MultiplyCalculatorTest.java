@@ -7,22 +7,23 @@
 package com.esteco.assignment;
 
 import org.junit.jupiter.api.Test;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AddCalculatorTest {
+public class MultiplyCalculatorTest {
 
     /**
      * Test case to verify the behavior of the add() method when handling an unknown number of arguments.
      */
     @Test
     public void testAddMethod_UnknownNumberOfArguments() {
-        String numbersSet1 = "1,2,3,4,5,6.5";
-        String numbersSet2 = "5,10,15,20,25";
-        String numbersSet3 = "10,20,30,40,50";
+        String numbersSet1 = "1.5,2,3";
+        String numbersSet2 = "5,10,20";
+        String numbersSet3 = "10,20,30";
 
-        String result = AddCalculator.add(numbersSet1, numbersSet2, numbersSet3);
+        String result = MultiplyCalculator.multiply(numbersSet1, numbersSet2, numbersSet3);
 
-        assertEquals( "21.5\n75\n150", result);
+        assertEquals( "9\n1000\n6000", result);
     }
 
     /*
@@ -30,7 +31,7 @@ public class AddCalculatorTest {
      */
     @Test
     public void testNewlineSeparator_ValidInput() {
-        assertEquals("10", AddCalculator.add("2\n3,5"));
+        assertEquals("30", MultiplyCalculator.multiply("2\n3,5"));
     }
 
     /**
@@ -42,7 +43,7 @@ public class AddCalculatorTest {
         String numbers = "1,3,";
         String expectedErrorMessage = "Number expected but EOF found";
 
-        String actualResult = AddCalculator.add(numbers);
+        String actualResult = MultiplyCalculator.multiply(numbers);
 
         assertEquals(expectedErrorMessage, actualResult);
     }
@@ -53,16 +54,16 @@ public class AddCalculatorTest {
     @Test
     public void testAddMethod_CustomSeparators() {
         String numbers1 = "//;\n1;2";
-        String numbers2 = "//|\n1|2|3";
+        String numbers2 = "//|\n1|2.5|3";
         String numbers3 = "//sep\n2sep3";
 
-        String result1 = AddCalculator.add(numbers1);
-        String result2 = AddCalculator.add(numbers2);
-        String result3 = AddCalculator.add(numbers3);
+        String result1 = MultiplyCalculator.multiply(numbers1);
+        String result2 = MultiplyCalculator.multiply(numbers2);
+        String result3 = MultiplyCalculator.multiply(numbers3);
 
-        assertEquals("3", result1);
-        assertEquals("6", result2);
-        assertEquals("5", result3);
+        assertEquals("2", result1);
+        assertEquals("7.5", result2);
+        assertEquals("6", result3);
     }
 
     /**
@@ -75,8 +76,8 @@ public class AddCalculatorTest {
         String numbers2 = "2,-4,-5";
         String expectedErrorMessage = "Negative numbers not allowed : -4\nNegative numbers not allowed : -5";
 
-        String result1 = AddCalculator.add(numbers1);
-        String result2 = AddCalculator.add(numbers2);
+        String result1 = MultiplyCalculator.multiply(numbers1);
+        String result2 = MultiplyCalculator.multiply(numbers2);
 
         assertEquals("Negative numbers not allowed : -1", result1);
         assertEquals(expectedErrorMessage, result2);
@@ -90,7 +91,7 @@ public class AddCalculatorTest {
         String numbers = "-1,,-2";
         String expectedErrorMessage = "Negative numbers not allowed : -1\nNumber expected but ',' found at position 1\nNegative numbers not allowed : -2";
 
-        String result = AddCalculator.add(numbers);
+        String result = MultiplyCalculator.multiply(numbers);
 
         assertEquals(expectedErrorMessage, result);
     }

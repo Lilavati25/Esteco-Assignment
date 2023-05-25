@@ -7,11 +7,11 @@ package com.esteco.assignment;
 import java.text.DecimalFormat;
 import java.util.regex.Pattern;
 
-public class AddCalculator {
+public class MultiplyCalculator {
     private static final String DEFAULT_DELIMITER = ",";
     private static final String BLANK_SPACE = "";
 
-    public static String add(String... numbersStrList){
+    public static String multiply(String... numbersStrList){
         StringBuffer result = new StringBuffer(BLANK_SPACE);
 
         for(String numberStr: numbersStrList){
@@ -36,7 +36,7 @@ public class AddCalculator {
             String regex = Pattern.quote(delimiter) + "|\\n|, ";
             String[] numbers = actualNumStr.split(regex);
 
-            double sum = 0;
+            double product = 1;
             boolean negativeNumPresent = false;
 
              for(int i=0; i< numbers.length; i++){
@@ -51,7 +51,7 @@ public class AddCalculator {
                              negativeNumPresent = true;
                              continue;
                          }
-                         sum += n;
+                         product *= n;
                      }catch (Exception e){
                          System.out.println(e.getMessage());
                      }
@@ -60,8 +60,8 @@ public class AddCalculator {
                  }
              }
              if(!negativeNumPresent){
-                 DecimalFormat decimalFormat = new DecimalFormat(sum % 1 == 0 ? "0" : "0.###");
-                 String formattedSum = decimalFormat.format(sum);
+                 DecimalFormat decimalFormat = new DecimalFormat(product % 1 == 0 ? "0" : "0.###");
+                 String formattedSum = decimalFormat.format(product);
                  result.append(formattedSum).append("\n");
              }
         }
