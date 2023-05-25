@@ -16,13 +16,13 @@ public class AddCalculatorTest {
      */
     @Test
     public void testAddMethod_UnknownNumberOfArguments() {
-        String numbersSet1 = "1,2,3,4,5";
+        String numbersSet1 = "1,2,3,4,5,6";
         String numbersSet2 = "5,10,15,20,25";
         String numbersSet3 = "10,20,30,40,50";
 
         String result = AddCalculator.add(numbersSet1, numbersSet2, numbersSet3);
 
-        assertEquals( "15\n75\n150", result);
+        assertEquals( "21\n75\n150", result);
     }
 
     /*
